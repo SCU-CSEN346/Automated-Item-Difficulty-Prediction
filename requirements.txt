@@ -1,0 +1,28 @@
+# Core data and ML stack
+numpy
+pandas<2.0
+scikit-learn
+matplotlib
+seaborn
+
+# Deep learning + NLP
+torch
+transformers==4.46.3
+torchmetrics
+huggingface-hub<1.0.0
+fasttext-wheel
+
+# Notebook execution
+jupyter
+ipykernel
+
+# Google Sheets access used by notebooks
+gspread
+google-auth
+
+# Optional: only needed if you keep Colab auth cells as-is
+# google-colab
+
+# Optional: notebooks use tensorflow for GPU availability checks
+# On Windows + Python 3.12, tensorflow may require specific install paths/versions.
+# tensorflow
