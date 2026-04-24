@@ -35,3 +35,7 @@ Thumbs.db
 
 # Dataset storage is published to Hugging Face, not GitHub
 Data/
+
+# Generated LLM inference output CSVs
+Inferencing/*_results_*.csv
+Inferencing/sanity_*.csv
