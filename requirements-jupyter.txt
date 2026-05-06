@@ -1,0 +1,27 @@
+# Core data stack
+numpy==1.26.4
+pandas==1.5.3
+scikit-learn==1.7.2
+matplotlib==3.10.9
+seaborn==0.13.2
+
+# NLP / model stack
+# AdamW was removed from transformers in 4.30 — pin to 4.29.2
+transformers==4.29.2
+tokenizers==0.13.3
+huggingface-hub==0.36.2
+fasttext==0.9.3
+# Install torch from requirements-cuda.txt to get CUDA-enabled wheels.
+torchmetrics==1.9.0
+tensorflow==2.21.0
+
+# Notebook runtime
+jupyter>=1.0
+ipykernel>=6.29
+
+# PyTorch with CUDA 13.0 support (RTX 5090 / compute capability 12.x)
+# Adjust cu130 if your CUDA version differs.
+--index-url https://download.pytorch.org/whl/cu130
+--extra-index-url https://pypi.org/simple
+
+torch==2.11.0
