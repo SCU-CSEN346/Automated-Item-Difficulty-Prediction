@@ -5,6 +5,7 @@ env/
 
 # Python cache and build artifacts
 __pycache__/
+.python-version
 *.py[cod]
 *.pyo
 *.pyd
