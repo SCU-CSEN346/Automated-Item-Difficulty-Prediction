@@ -1,0 +1,11 @@
+=== Test Set Evaluation ===
+
+[Difficulty]
+  RMSE      : 0.3052
+  Pearson r : 0.2617
+  Kendall t : 0.1649
+
+[Response Time]
+  RMSE      : 26.8486
+  Pearson r : 0.5364
+  Kendall t : 0.4155

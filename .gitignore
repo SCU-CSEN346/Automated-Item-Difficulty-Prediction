@@ -37,6 +37,14 @@ Thumbs.db
 # Dataset storage is published to Hugging Face, not GitHub
 Data/
 *.csv
+*.png
+
+# Model weights and checkpoints
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.ckpt
 
 # Generated LLM inference output CSVs
 Inferencing/*_results_*.csv
