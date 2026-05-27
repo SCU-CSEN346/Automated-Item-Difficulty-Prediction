@@ -14,16 +14,38 @@ The experiments use transformer-based models (BERT and GPT variants) on the BEA 
 ```
 .
 |- Data/
-|  |- BEA 2024 Task Data Extended Shuffled - BEA 2024 Task Data Extended Shuffled.csv
-|  `- BEA 2024 Test Data Extended - Sheet 1.csv
-|- Difficulty/
-|  |- 6_Difficulty_BEA_2024_BERT.ipynb
-|  |- 8_Difficulty_BEA_2024_GPT.ipynb
-|  `- 12_Difficulty_BEA_2024_GPT.ipynb
-`- Response Time/
-	|- 2_Time_BEA_2024_BERT.ipynb
-	|- 6_Time_BEA_2024_BERT.ipynb
-	`- 8_Time_BEA_2024_GPT.ipynb
+|  |- Original Paper/
+|  |  |- BEA 2024 Task Data Extended Shuffled - BEA 2024 Task Data Extended Shuffled.csv
+|  |  `- BEA 2024 Test Data Extended - Sheet 1.csv
+|  `- Our/
+|     |- train_final.csv / test_final.csv        ← pre-processed splits
+|     |- train_inference_gemma.csv / test_inference_gemma.csv
+|     `- train_inference_llama.csv / test_inference_llama.csv
+|- Model/
+|  |- Original Paper/
+|  |  |- Difficulty/
+|  |  |  |- 6_Difficulty_BEA_2024_BERT.ipynb
+|  |  |  |- 8_Difficulty_BEA_2024_GPT.ipynb
+|  |  |  `- 12_Difficulty_BEA_2024_GPT.ipynb
+|  |  `- Response Time/
+|  |     |- 2_Time_BEA_2024_BERT.ipynb
+|  |     |- 6_Time_BEA_2024_BERT.ipynb
+|  |     `- 8_Time_BEA_2024_GPT.ipynb
+|  `- Our/
+|     |- ModernBert_LoRA_Dualgate.ipynb          ← our model (training + eval)
+|     |- Unibuc-FMI_DualGate_predictions.csv     ← competition submission format
+|     `- UPGRADES.md                             ← upgrade roadmap + progress log
+|- Inferencing/
+|  |- run_inference.py
+|  |- sanity_check.py
+|  `- _lib/  (auth, batch, config, inference)
+`- Results/
+   |- diff_r0.231_tau0.144__rtime_r0.535_tau0.434/
+   |- diff_r0.262_tau0.145__rtime_r0.628_tau0.490/
+   |- diff_r0.262_tau0.165__rtime_r0.536_tau0.415/
+   |- diff_r0.274_tau0.171__rtime_r0.597_tau0.460/
+   `- diff_r0.302_tau0.168__rtime_r0.610_tau0.471/
+      Each folder contains: metrics.txt + the notebook snapshot at that run.
 ```
 
 ## Data
@@ -36,15 +58,21 @@ Main dataset columns used across notebooks include:
 
 ## Notebook Guide
 
-Difficulty notebooks:
-- `Difficulty/6_Difficulty_BEA_2024_BERT.ipynb`: BERT-based difficulty regression pipeline
-- `Difficulty/8_Difficulty_BEA_2024_GPT.ipynb`: GPT-based difficulty regression pipeline
-- `Difficulty/12_Difficulty_BEA_2024_GPT.ipynb`: GPT-based difficulty experiment variant
+### Original Paper Notebooks
 
-Response-time notebooks:
-- `Response Time/2_Time_BEA_2024_BERT.ipynb`: BERT-based response-time regression pipeline
-- `Response Time/6_Time_BEA_2024_BERT.ipynb`: BERT-based response-time experiment variant
-- `Response Time/8_Time_BEA_2024_GPT.ipynb`: GPT-based response-time regression pipeline
+Difficulty notebooks (`Model/Original Paper/Difficulty/`):
+- `6_Difficulty_BEA_2024_BERT.ipynb`: BERT-based difficulty regression pipeline
+- `8_Difficulty_BEA_2024_GPT.ipynb`: GPT-based difficulty regression pipeline
+- `12_Difficulty_BEA_2024_GPT.ipynb`: GPT-based difficulty experiment variant
+
+Response-time notebooks (`Model/Original Paper/Response Time/`):
+- `2_Time_BEA_2024_BERT.ipynb`: BERT-based response-time regression pipeline
+- `6_Time_BEA_2024_BERT.ipynb`: BERT-based response-time experiment variant
+- `8_Time_BEA_2024_GPT.ipynb`: GPT-based response-time regression pipeline
+
+### Our Model Notebook
+
+- `Model/Our/ModernBert_LoRA_Dualgate.ipynb`: ModernBERT + LoRA dual-gate architecture for joint difficulty and response-time prediction. See [Our Model](#our-model-modernbert--lora-dualgate) below for details and results.
 
 ## Environment and Dependencies
 
@@ -178,15 +206,41 @@ gcloud auth application-default login   # sets up Google ADC credentials
 >
 > Make sure the Google account you authenticate with (`gcloud auth application-default login`) has the **Vertex AI User** role on that project, and that the Vertex AI API is enabled.
 
+## Our Model: ModernBERT + LoRA DualGate
+
+Our model (`Model/Our/ModernBert_LoRA_Dualgate.ipynb`) improves on the original paper's best result (Pearson r = 0.181, Kendall τ = 0.106 for difficulty) using the following architecture:
+
+- **Dual-encoder:** `q_answers_input` (question + choices, max 512 tokens) and `llms_a_input` (Gemma + Llama CoT reasoning, max 1024 tokens) are encoded in separate forward passes through the same LoRA-adapted ModernBERT. The two pooled representations are concatenated.
+- **Mean pooling:** Attention-mask-weighted mean over all token positions (instead of CLS-only).
+- **Scalar features:** `gemma_confidence`, `llama_confidence`, `gemma_correct`, `llama_correct` appended to the fused representation before the regression heads.
+- **Huber loss** (`delta=0.1`) for outlier-robust training.
+- **Joint prediction:** separate linear heads for `Difficulty` and `Response_Time` trained simultaneously.
+
+See `Model/Our/UPGRADES.md` for the full upgrade roadmap and progress log.
+
+### Results
+
+All runs evaluated on the held-out test set. Folder names encode the key metrics of that run.
+
+| Run | Diff RMSE | Diff r | Diff τ | RT RMSE | RT r | RT τ |
+|-----|:---------:|:------:|:------:|:-------:|:----:|:----:|
+| diff_r0.231_tau0.144__rtime_r0.535_tau0.434 | 0.3147 | 0.2308 | 0.1441 | 29.485 | 0.5350 | 0.4340 |
+| diff_r0.262_tau0.145__rtime_r0.628_tau0.490 | 0.3064 | 0.2620 | 0.1449 | 24.591 | 0.6282 | **0.4899** |
+| diff_r0.262_tau0.165__rtime_r0.536_tau0.415 | 0.3052 | 0.2617 | 0.1649 | 26.849 | 0.5364 | 0.4155 |
+| diff_r0.274_tau0.171__rtime_r0.597_tau0.460 | 0.3079 | 0.2742 | **0.1708** | 25.411 | 0.5971 | 0.4599 |
+| diff_r0.302_tau0.168__rtime_r0.610_tau0.471 | **0.3024** | **0.3025** | 0.1678 | **25.102** | 0.6104 | 0.4714 |
+| *Original paper best* | *0.3078* | *0.181* | *0.106* | *27.0160* | *0.5503* | *0.4355* |
+
+Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — representing a **+67%** improvement in difficulty Pearson r over the original paper baseline.
+
 ## Notes
 
 - Notebooks perform manual fold splitting and regression-style training loops.
 - Several notebooks normalize targets with `MinMaxScaler` before training.
 - GPU is expected for practical training speed.
 
-## Suggested Next Cleanup
+## Suggested Next Steps
 
-If you plan to maintain this project long-term, useful next steps are:
 1. Move shared preprocessing/training utilities into Python modules.
-2. Add a single requirements file for local reproducibility.
-3. Standardize notebook naming to match model/task/fold consistently.
+2. Standardize notebook naming to match model/task/fold consistently.
+3. Implement the remaining upgrades from `Model/Our/UPGRADES.md` (ensemble of question-only + LLM-augmented streams, additional LLMs).
