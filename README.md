@@ -48,6 +48,18 @@ The experiments use transformer-based models (BERT and GPT variants) on the BEA 
       Each folder contains: metrics.txt + the notebook snapshot at that run.
 ```
 
+
+## Model Description Overview: ModernBERT and LoRA DualGate
+Our system, DualGate, has significantly improved in performance compared to the original UnibucLLM submission to the BEA 2024 Shared Task. It uses a dual-stream encoder with parameter-efficient fine-tuning, scalar feature injection, and joint multi-task learning framework. 
+
+To deal with the limitations of the original work that stifled performance such as the small LLMs, lack of structured reasoning, and overfitting, we use stronger models such as Gemma 4 and Lamma 3.3 for zero-shot Chain-of-Thought feature generation.
+
+DualGate uses a shared ModernBERT encoder to process the inputs question text which has a 512 token max and LLM-generated reasoning logs which has a 1024 token max. We use mean pooling to create two 768-dimensional vectors(the standard embedding dimension of the ModernBERT-base encoder). These combine with four metadata features (the normalized confidence scores and correctness labels for each) into a single 1540-dimensional vector. This vector feeds into two regression heads with sigmoid activations. 
+
+Since the 466 sample data set is small and could overfit, we use LoRA (r=32) on all linear layers which reduces training to 4.34% of the parameters. Lastly, we train the model jointly using weighted Huber loss delta=0.1 to take advantage of the link between difficulty and response time.
+
+Finally, to combine the strengths of these inputs to hopefully improve performance, we used a weighted ensemble. We set the ensemble weight alpha to 0.85 to give more weight to the structured LLM reasoning in the final prediction since it is more accurate in predictions.
+
 ## Data
 
 Main dataset columns used across notebooks include:
