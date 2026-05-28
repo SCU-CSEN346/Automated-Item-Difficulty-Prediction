@@ -258,10 +258,27 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 3. Implement the remaining upgrades from `Model/Our/UPGRADES.md` (ensemble of question-only + LLM-augmented streams, additional LLMs).
 
 ### Team Member Contributions
-##Michael Suo:
+## Michael Suo:
+1.
+2. 
 
-##Bojing (Shirley) Yu:
+## Bojing (Shirley) Yu:
+1. Paper: Abstract section
+2. Paper: Related work
+3. Paper: Methods
+4. Paper: Paper Evaluation Baseline Reproduction and Verification
+5. Paper: Ethics
+6. Paper: Conlusion
+7. Code: first version of Dulgate
+8. Code: Baseline reproduction
+9. Code: Upgrate 1 (Dual encoder)
+10. Code: Upgrate 2 (Asymmetric MAX_LEN)
+11. Code: Upgrate 3 (LLM confidence score as scalar features)
+12. Presentation: Project idea presentation slides and script
+13. Presentation: Project status report slides and script
+14. Presentation: Final presentation final version slides and script (1-10)
 
-##Andrew Le:
+## Andrew Le:
+1. 
 
 
