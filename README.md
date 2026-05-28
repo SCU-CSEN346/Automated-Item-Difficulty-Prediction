@@ -305,6 +305,7 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 15. Presentation: Project idea presentation slides and script
 16. Presentation: Project status report slides and script
 17. Presentation: Final presentation final version slides and script (1-10)
+18. Presentation: Created poster for poster presentation
 
 ## Andrew Le:
 1. Paper: Started introduction and related work.
