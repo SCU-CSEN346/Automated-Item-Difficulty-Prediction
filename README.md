@@ -298,6 +298,17 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 17. Presentation: Final presentation final version slides and script (1-10)
 
 ## Andrew Le:
-1. 
+1. Paper: Started introduction and related work.
+2. Paper: Rewrote parts of experimental setup and introduction.
+3. Paper: Wrote parts of Parameter-Efficient Fine-Tuning and Multi-Task Learning in Related Work.
+4. Paper: Evaluation Metrics
+5. Paper: Weighted Ensemble section
+6. Paper: Weighted ensemble results
+7. Code: Baseline reproduction (outdated)
+8. Code: Upgrade 4: ensemble method
+9. Code: Feature set table
+10. Presentation: Edited final presentation slides
+11. Presentation: Edited idea presentation slides
+12. Other: Created group discord
 
 
