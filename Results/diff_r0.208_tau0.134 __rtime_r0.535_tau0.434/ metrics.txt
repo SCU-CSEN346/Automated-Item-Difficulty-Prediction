@@ -1,0 +1,9 @@
+[Ensemble Difficulty]
+  RMSE      : 0.3125
+  Pearson r : 0.2083 (p=3.01e-03)
+  Kendall t : 0.1340 (p=5.23e-03)
+
+[Ensemble Response Time]
+  RMSE      : 29.4850
+  Pearson r : 0.5350 (p=2.00e-12)
+  Kendall t : 0.4340 (p=1.50e=13)
