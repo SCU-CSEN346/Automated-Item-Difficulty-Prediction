@@ -59,7 +59,7 @@ Original paper best: BERT + LLM-augmented features → Pearson r = 0.181, Kendal
 | 2 | Asymmetric MAX_LEN | ✅ done | LLM stream at 1024 tokens |
 | 3 | Confidence scalars | ✅ done | gemma+llama conf → [B,2], concat to CLS |
 | 4 | Mean pooling | ✅ done | Mask-weighted mean replaces CLS pooling |
-| 5 | Huber loss | ⏳ | Quick swap, any time |
+| 5 | Huber loss | ✅ done | Quick swap, any time |
 | 6 | Correctness flag | ✅ done | gemma_correct + llama_correct → [B,4] scalar vector |
-| 7 | Ensemble | ⏳ | After #1–4 |
+| 7 | Ensemble | ✅ done | After #1–4 |
 | 8 | More LLMs | ⏳ | Future work |
