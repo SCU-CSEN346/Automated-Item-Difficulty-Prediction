@@ -256,3 +256,12 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 1. Move shared preprocessing/training utilities into Python modules.
 2. Standardize notebook naming to match model/task/fold consistently.
 3. Implement the remaining upgrades from `Model/Our/UPGRADES.md` (ensemble of question-only + LLM-augmented streams, additional LLMs).
+
+### Team Member Contributions
+##Michael Suo:
+
+##Bojing (Shirley) Yu:
+
+##Andrew Le:
+
+
