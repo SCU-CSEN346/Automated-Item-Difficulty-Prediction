@@ -13,14 +13,18 @@ The experiments use transformer-based models (BERT and GPT variants) on the BEA 
 
 ```
 .
-|- Data/
-|  |- Original Paper/
-|  |  |- BEA 2024 Task Data Extended Shuffled - BEA 2024 Task Data Extended Shuffled.csv
-|  |  `- BEA 2024 Test Data Extended - Sheet 1.csv
-|  `- Our/
-|     |- train_final.csv / test_final.csv        ← pre-processed splits
-|     |- train_inference_gemma.csv / test_inference_gemma.csv
-|     `- train_inference_llama.csv / test_inference_llama.csv
+|- .gitattributes
+|- .gitignore
+|- Inferencing/
+|  |- _lib/
+|  |  |- __init__.py
+|  |  |- auth.py
+|  |  |- batch.py
+|  |  |- config.py
+|  |  `- inference.py
+|  |- inference_test_questions.csv
+|  |- run_inference.py
+|  `- sanity_check.py
 |- Model/
 |  |- Original Paper/
 |  |  |- Difficulty/
@@ -32,36 +36,34 @@ The experiments use transformer-based models (BERT and GPT variants) on the BEA 
 |  |     |- 6_Time_BEA_2024_BERT.ipynb
 |  |     `- 8_Time_BEA_2024_GPT.ipynb
 |  `- Our/
-|     |- ModernBert_LoRA_Dualgate.ipynb          ← our model (training + eval)
-|     |- ModernBert_LoRA_Dualgate_(Ensemble).ipynb
-|     |- ModernBert_LoRA_Dualgate_(Latest_Ensemble).ipynb
-|     |- Unibuc-FMI_DualGate_predictions.csv     ← competition submission format
-|     `- UPGRADES.md                             ← upgrade roadmap + progress log
-|- Inferencing/
-|  |- run_inference.py
-|  |- sanity_check.py
-|  `- _lib/  (auth, batch, config, inference)
-`- Results/
-   |- diff_r0.182_tau0.108__rtime_r0.539_tau0.419/
-   |- diff_r0.231_tau0.144__rtime_r0.535_tau0.434/
-   |- diff_r0.262_tau0.145__rtime_r0.628_tau0.490/
-   |- diff_r0.262_tau0.165__rtime_r0.536_tau0.415/
-   |- diff_r0.274_tau0.171__rtime_r0.597_tau0.460/
-   `- diff_r0.302_tau0.168__rtime_r0.610_tau0.471/
-      Each folder contains: metrics.txt + the notebook snapshot at that run.
+|     |- ModernBert_LoRA_Dualgate.ipynb
+|     |- ModernBert_LoRA_Dualgate_(Final_Ensemble).ipynb
+|     |- Unibuc-FMI_DualGate_predictions.csv
+|     `- UPGRADES.md
+|- Results/
+|  |- diff_r0.208_tau0.134 __rtime_r0.535_tau0.434/
+|  |- diff_r0.231_tau0.144__rtime_r0.535_tau0.434/
+|  |- diff_r0.262_tau0.145__rtime_r0.628_tau0.490/
+|  |- diff_r0.262_tau0.165__rtime_r0.536_tau0.415/
+|  |- diff_r0.274_tau0.171__rtime_r0.597_tau0.460/
+|  `- diff_r0.302_tau0.168__rtime_r0.610_tau0.471/
+|     Each folder contains: metrics.txt + the notebook snapshot at that run.
+|- README.md
+|- requirements-jupyter.txt
+`- requirements.txt
 ```
 
 
 ## Model Description Overview: ModernBERT and LoRA DualGate
-Our system, DualGate, has significantly improved in performance compared to the original UnibucLLM submission to the BEA 2024 Shared Task. It uses a dual-stream encoder with parameter-efficient fine-tuning, scalar feature injection, and joint multi-task learning framework. 
+Our system, DualGate, has significantly improved in performance compared to the original UnibucLLM submission to the BEA 2024 Shared Task. It uses a dual-stream encoder with parameter-efficient fine-tuning (LoRA) over ModernBERT and jointly predicts both Difficulty and Response_Time.
 
-To deal with the limitations of the original work that stifled performance such as the small LLMs, lack of structured reasoning, and overfitting, we use stronger models such as Gemma 4 and Lamma 3.3 for zero-shot Chain-of-Thought feature generation.
+To deal with the limitations of the original work that stifled performance such as the small LLMs, lack of structured reasoning, and overfitting, we use stronger models such as Gemma 4 and Lamma 3.3 for chain-of-thought inference. We also refine how these signals are fused with the original question-and-answer text.
 
-DualGate uses a shared ModernBERT encoder to process the inputs question text which has a 512 token max and LLM-generated reasoning logs which has a 1024 token max. We use mean pooling to create two 768-dimensional vectors(the standard embedding dimension of the ModernBERT-base encoder). These combine with four metadata features (the normalized confidence scores and correctness labels for each) into a single 1540-dimensional vector. This vector feeds into two regression heads with sigmoid activations. 
+DualGate uses a shared ModernBERT encoder to process the inputs question text which has a 512 token max and LLM-generated reasoning logs which has a 1024 token max. We use mean pooling to create two 768-dimensional embeddings and combine them with scalar features such as confidence and answer correctness.
 
-Since the 466 sample data set is small and could overfit, we use LoRA (r=32) on all linear layers which reduces training to 4.34% of the parameters. Lastly, we train the model jointly using weighted Huber loss delta=0.1 to take advantage of the link between difficulty and response time.
+Since the 466 sample data set is small and could overfit, we use LoRA (r=32) on all linear layers which reduces training to 4.34% of the parameters. Lastly, we train the model jointly using weighted Huber losses for both prediction targets.
 
-Finally, to combine the strengths of these inputs to hopefully improve performance, we used a weighted ensemble. We set the ensemble weight alpha to 0.85 to give more weight to the structured LLM reasoning in the final prediction since it is more accurate in predictions.
+Finally, to combine the strengths of these inputs to hopefully improve performance, we used a weighted ensemble. We set the ensemble weight alpha to 0.85 to give more weight to the structured LLM reasoning stream while still retaining the direct question/answer signal.
 
 ## Data
 
@@ -87,11 +89,11 @@ Response-time notebooks (`Model/Original Paper/Response Time/`):
 
 ### Our Model Notebook
 
-- `Model/Our/ModernBert_LoRA_Dualgate.ipynb`: ModernBERT + LoRA dual-gate architecture for joint difficulty and response-time prediction. See [Our Model](#our-model-modernbert--lora-dualgate) below for details and results.
+- `Model/Our/ModernBert_LoRA_Dualgate.ipynb`: ModernBERT + LoRA dual-gate architecture for joint difficulty and response-time prediction. See [Our Model](#our-model-modernbert--lora-dualgate) below for details.
 
 ## Environment and Dependencies
 
-> **Python version:** Use **Python 3.10**. The notebooks use `DataFrame.append()` which was removed in pandas 2.0, and pandas 1.x wheels are not available for Python 3.11+. Python 3.10 is required to install `pandas<2.0` locally.
+> **Python version:** Use **Python 3.10**. The notebooks use `DataFrame.append()` which was removed in pandas 2.0, and pandas 1.x wheels are not available for Python 3.11+. Python 3.10 is required to run the notebooks without refactoring those cells.
 
 The notebooks were authored for Google Colab and include inline package installs.
 
@@ -138,7 +140,7 @@ test_dataset = pd.read_csv(
 
 ## LLM Chain-of-Thought Inference (Our Addition)
 
-As an extension to the original notebook experiments we added an LLM-based inference pipeline that generates a **chain-of-thought answer and confidence score** for every item using large language models served through Google Vertex AI MaaS.  The LLM output is then used as an additional feature set when predicting difficulty and response time.
+As an extension to the original notebook experiments we added an LLM-based inference pipeline that generates a **chain-of-thought answer and confidence score** for every item using large language models.
 
 ### Models
 
@@ -175,7 +177,7 @@ Columns in each inference CSV: `ItemNum`, `thinking`, `answer`, `confidence`.
 python run_inference.py
 ```
 
-The script is fully resumable.  If a result CSV already exists it checks for missing or corrupted rows and re-infers only those, looping until every item is clean.  Progress is checkpointed after every single item.
+The script is fully resumable.  If a result CSV already exists it checks for missing or corrupted rows and re-infers only those, looping until every item is clean.  Progress is checkpointed after every successful item.
 
 A row is considered **corrupted** if:
 - `answer` is not a valid letter A–J
@@ -225,7 +227,7 @@ gcloud auth application-default login   # sets up Google ADC credentials
 
 Our model (`Model/Our/ModernBert_LoRA_Dualgate.ipynb`) improves on the original paper's best result (Pearson r = 0.181, Kendall τ = 0.106 for difficulty) using the following architecture:
 
-- **Dual-encoder:** `q_answers_input` (question + choices, max 512 tokens) and `llms_a_input` (Gemma + Llama CoT reasoning, max 1024 tokens) are encoded in separate forward passes through the same LoRA-adapted ModernBERT. The two pooled representations are concatenated.
+- **Dual-encoder:** `q_answers_input` (question + choices, max 512 tokens) and `llms_a_input` (Gemma + Llama CoT reasoning, max 1024 tokens) are encoded in separate forward passes through the same LoRA-adapted ModernBERT backbone.
 - **Mean pooling:** Attention-mask-weighted mean over all token positions (instead of CLS-only).
 - **Scalar features:** `gemma_confidence`, `llama_confidence`, `gemma_correct`, `llama_correct` appended to the fused representation before the regression heads.
 - **Huber loss** (`delta=0.1`) for outlier-robust training.
@@ -317,5 +319,3 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 10. Presentation: Edited final presentation slides
 11. Presentation: Edited idea presentation slides
 12. Other: Created group discord
-
-
