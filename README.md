@@ -272,7 +272,7 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 10. Code: Inference from Gemma 4 and Llama 3.3 for CoT stream
 11. Data: Fix original author data encoding and formatting issue
 12. Data: Generate Final data for our model
-13. ENV: Build Ubuntu env on Shirley's computer because she got a RTX 5090
+13. ENV: Build Ubuntu env on computer for team's development
 14. ENV: Help build up env for original paper reproduction
 15. Code: Upgrade our model with mean pooling methods
 16. Code: Replace MSE loss function with Huber loss
@@ -282,18 +282,20 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 1. Paper: Abstract section
 2. Paper: Related work
 3. Paper: Methods
-4. Paper: Paper Evaluation Baseline Reproduction and Verification
-5. Paper: Ethics
-6. Paper: Conlusion
-7. Code: first version of Dulgate
-8. Code: Baseline reproduction
-9. Code: Create a potential upgrade list
-10. Code: Upgrate 1 (Dual encoder)
-11. Code: Upgrate 2 (Asymmetric MAX_LEN)
-12. Code: Upgrate 3 (LLM confidence score as scalar features)
-13. Presentation: Project idea presentation slides and script
-14. Presentation: Project status report slides and script
-15. Presentation: Final presentation final version slides and script (1-10)
+4. Paper: Draft first version of Results section
+5. Paper: Draw model architecture diagram
+6. Paper: Paper Evaluation Baseline Reproduction and Verification
+7. Paper: Ethics
+8. Paper: Conlusion
+9. Code: first version of Dulgate
+10. Code: Baseline reproduction
+11. Code: Create a potential upgrade list
+12. Code: Upgrate 1 (Dual encoder)
+13. Code: Upgrate 2 (Asymmetric MAX_LEN)
+14. Code: Upgrate 3 (LLM confidence score as scalar features)
+15. Presentation: Project idea presentation slides and script
+16. Presentation: Project status report slides and script
+17. Presentation: Final presentation final version slides and script (1-10)
 
 ## Andrew Le:
 1. 
