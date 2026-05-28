@@ -257,10 +257,26 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 2. Standardize notebook naming to match model/task/fold consistently.
 3. Implement the remaining upgrades from `Model/Our/UPGRADES.md` (ensemble of question-only + LLM-augmented streams, additional LLMs).
 
-### Team Member Contributions
+# Team Member Contributions
+
 ## Michael Suo:
-1.
-2. 
+1. Paper: Wrote introduction section on Overleaf
+2. Paper: Rewrite Results section after final model
+3. Paper: Wrote Analysis and Motivation subsection in Paper Evaluation
+4. Paper: Add table 2 for demostrate our Dataset composition
+5. Paper: Add reprodcution results as table 3
+6. Paper: Finalize table 4 with our final resutls
+7. Repo: Create and maintain repo file structure
+8. Code: Craete inference pipline
+9. Code: Write inference sanity-check and prompt template
+10. Code: Inference from Gemma 4 and Llama 3.3 for CoT stream
+11. Data: Fix original author data encoding and formatting issue
+12. Data: Generate Final data for our model
+13. ENV: Build Ubuntu env on Shirley's computer because she got a RTX 5090
+14. ENV: Help build up env for original paper reproduction
+15. Code: Upgrade our model with mean pooling methods
+16. Code: Replace MSE loss function with Huber loss
+17. Code: Add LLM correctness label as scalar inputs
 
 ## Bojing (Shirley) Yu:
 1. Paper: Abstract section
@@ -271,12 +287,13 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 6. Paper: Conlusion
 7. Code: first version of Dulgate
 8. Code: Baseline reproduction
-9. Code: Upgrate 1 (Dual encoder)
-10. Code: Upgrate 2 (Asymmetric MAX_LEN)
-11. Code: Upgrate 3 (LLM confidence score as scalar features)
-12. Presentation: Project idea presentation slides and script
-13. Presentation: Project status report slides and script
-14. Presentation: Final presentation final version slides and script (1-10)
+9. Code: Create a potential upgrade list
+10. Code: Upgrate 1 (Dual encoder)
+11. Code: Upgrate 2 (Asymmetric MAX_LEN)
+12. Code: Upgrate 3 (LLM confidence score as scalar features)
+13. Presentation: Project idea presentation slides and script
+14. Presentation: Project status report slides and script
+15. Presentation: Final presentation final version slides and script (1-10)
 
 ## Andrew Le:
 1. 
