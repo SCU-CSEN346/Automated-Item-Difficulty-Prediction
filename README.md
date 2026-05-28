@@ -33,6 +33,8 @@ The experiments use transformer-based models (BERT and GPT variants) on the BEA 
 |  |     `- 8_Time_BEA_2024_GPT.ipynb
 |  `- Our/
 |     |- ModernBert_LoRA_Dualgate.ipynb          ← our model (training + eval)
+|     |- ModernBert_LoRA_Dualgate_(Ensemble).ipynb
+|     |- ModernBert_LoRA_Dualgate_(Latest_Ensemble).ipynb
 |     |- Unibuc-FMI_DualGate_predictions.csv     ← competition submission format
 |     `- UPGRADES.md                             ← upgrade roadmap + progress log
 |- Inferencing/
@@ -40,6 +42,7 @@ The experiments use transformer-based models (BERT and GPT variants) on the BEA 
 |  |- sanity_check.py
 |  `- _lib/  (auth, batch, config, inference)
 `- Results/
+   |- diff_r0.182_tau0.108__rtime_r0.539_tau0.419/
    |- diff_r0.231_tau0.144__rtime_r0.535_tau0.434/
    |- diff_r0.262_tau0.145__rtime_r0.628_tau0.490/
    |- diff_r0.262_tau0.165__rtime_r0.536_tau0.415/
@@ -266,17 +269,21 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 4. Paper: Add table 2 for demostrate our Dataset composition
 5. Paper: Add reprodcution results as table 3
 6. Paper: Finalize table 4 with our final resutls
-7. Repo: Create and maintain repo file structure
-8. Code: Craete inference pipline
-9. Code: Write inference sanity-check and prompt template
-10. Code: Inference from Gemma 4 and Llama 3.3 for CoT stream
-11. Data: Fix original author data encoding and formatting issue
-12. Data: Generate Final data for our model
-13. ENV: Build Ubuntu env on computer for team's development
-14. ENV: Help build up env for original paper reproduction
-15. Code: Upgrade our model with mean pooling methods
-16. Code: Replace MSE loss function with Huber loss
-17. Code: Add LLM correctness label as scalar inputs
+7. Paper: Draft first version of related work
+8. Repo: Create and maintain repo file structure
+9. Code: Craete inference pipline
+10. Code: Write inference sanity-check and prompt template
+11. Code: Inference from Gemma 4 and Llama 3.3 for CoT stream
+12. Data: Fix original author data encoding and formatting issue
+13. Data: Generate Final data for our model
+14. ENV: Build Ubuntu env on computer for team's development
+15. ENV: Help build up env for original paper reproduction
+16. Code: Upgrade our model with mean pooling methods
+17. Code: Replace MSE loss function with Huber loss
+18. Code: Add LLM correctness label as scalar inputs
+19. Presentation: Final presentation slides and script (11-13)
+20. Presentation: Hold for Project Status presentation
+21. Presentation: Help writing Project Idea presentation script
 
 ## Bojing (Shirley) Yu:
 1. Paper: Abstract section
@@ -306,7 +313,7 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 6. Paper: Weighted Ensemble section
 7. Paper: Weighted ensemble results
 8. Code: Baseline reproduction (outdated)
-9. Code: Upgrade 4: ensemble method
+9. Code: Upgrade 7: ensemble method
 10. Presentation: Edited final presentation slides
 11. Presentation: Edited idea presentation slides
 12. Other: Created group discord
