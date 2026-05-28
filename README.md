@@ -286,17 +286,17 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 21. Presentation: Help writing Project Idea presentation script
 
 ## Bojing (Shirley) Yu:
-1. Paper: Abstract section
-2. Paper: Related work
-3. Paper: Methods
-4. Paper: Draft first version of Results section
+1. Paper: Wrote Abstract section
+2. Paper: Editted Related work section
+3. Paper: Wrote Methods section (opening paragraph + 4.1-4.4)
+4. Paper: Draft first version of Results section (routine submission)
 5. Paper: Draw model architecture diagram
-6. Paper: Paper Evaluation Baseline Reproduction and Verification
-7. Paper: Ethics
-8. Paper: Conlusion
-9. Code: first version of Dulgate
+6. Paper: Wrote Baseline Reproduction and Verification subsection in Paper Evaluation section
+7. Paper: Wrote Ethics section
+8. Paper: Wrote Conlusion section
+9. Code: Wrote first version of Dulgate
 10. Code: Baseline reproduction
-11. Code: Create a potential upgrade list
+11. Code: Created a potential upgrade list
 12. Code: Upgrate 1 (Dual encoder)
 13. Code: Upgrate 2 (Asymmetric MAX_LEN)
 14. Code: Upgrate 3 (LLM confidence score as scalar features)
