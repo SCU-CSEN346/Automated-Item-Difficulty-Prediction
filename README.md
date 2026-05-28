@@ -140,7 +140,7 @@ test_dataset = pd.read_csv(
 
 ## LLM Chain-of-Thought Inference (Our Addition)
 
-As an extension to the original notebook experiments we added an LLM-based inference pipeline that generates a **chain-of-thought answer and confidence score** for every item using large language models.
+As an extension to the original notebook experiments we added an LLM-based inference pipeline that generates a **chain-of-thought answer and confidence score** for every item using large language models served through Google Vertex AI MaaS. The LLM output is then used as an additional feature set when predicting difficulty and response time.
 
 ### Models
 
