@@ -5,5 +5,5 @@
 
 [Ensemble Response Time]
   RMSE      : 29.4850
-  Pearson r : 0.5350 (p=2.00e-12)
-  Kendall t : 0.4340 (p=1.50e=13)
+  Pearson r : 0.4697 (p=2.00e-12)
+  Kendall t : 0.3506 (p=1.50e=13)
