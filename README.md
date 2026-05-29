@@ -302,10 +302,10 @@ Best single-run result: **Difficulty r = 0.3025**, **RT r = 0.6282** — represe
 12. Code: Upgrate 1 (Dual encoder)
 13. Code: Upgrate 2 (Asymmetric MAX_LEN)
 14. Code: Upgrate 3 (LLM confidence score as scalar features)
-15. Presentation: Project idea presentation slides and script
-16. Presentation: Project status report slides and script
-17. Presentation: Final presentation final version slides and script (1-10)
-18. Presentation: Created poster for poster presentation
+15. Idea Presentation: Did slides and wrote the script
+16. Project Status Presentation: Did slides and wrote the script
+17. Final Presentation: Did majority of the slides from scratch and wrote script for the team (1-10)
+18. Poster Presentation: Created poster for poster presentation
 
 ## Andrew Le:
 1. Paper: Started introduction and related work.
